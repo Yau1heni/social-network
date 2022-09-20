@@ -5,7 +5,7 @@ import MyPosts from "./MyPosts/MyPosts";
 
 const Profile = () => {
     return (
-        <main className={s.content}>
+        <main className='app-wrapper-content'>
             <div>
                 <img src="" alt="img"/>
             </div>
