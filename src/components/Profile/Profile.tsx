@@ -1,14 +1,17 @@
 import React from 'react';
-import s from "./Profile.module.css"
 import MyPosts from "./MyPosts/MyPosts";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
+import {AppPropsType} from "../../redux/State";
 
+const Profile = (props: AppPropsType) => {
 
-const Profile = () => {
     return (
         <main className='app-wrapper-content'>
             <ProfileInfo/>
-            <MyPosts/>
+            <MyPosts state={props.state}
+                     addPostCallback={props.addPostCallback}
+                     updateNewPostText={props.updateNewPostText}
+            />
         </main>
     );
 };
