@@ -3,19 +3,20 @@ import s from "./MyPosts.module.css";
 import Post from "./Post/Post";
 import {AppPropsType} from "../../../redux/State";
 
+
 const MyPosts = (props: AppPropsType) => {
     let newPostElement = React.createRef<HTMLTextAreaElement>()
 
     let addPost = () => {
-        if (newPostElement.current && props.addPostCallback) {
-            props.addPostCallback(newPostElement.current.value)
+        if (newPostElement.current && props.dispatch) {
+            props.dispatch({type: 'ADD-POST'})
             newPostElement.current.value = ''
         }
     }
     let onPostChange = () => {
-        if (newPostElement.current && props.updateNewPostText) {
-            let text = newPostElement.current.value
-            props.updateNewPostText(text)
+        if (newPostElement.current && props.dispatch) {
+            let newText = newPostElement.current.value
+            props.dispatch({type: 'UPDATE-NEW-POST', newText})
         }
     }
     let postsElements = props.state.profilePage.posts.map((p) => <Post
@@ -28,7 +29,7 @@ const MyPosts = (props: AppPropsType) => {
             <div>
                 <div><textarea ref={newPostElement}
                                onChange={onPostChange}
-                               ></textarea></div>
+                ></textarea></div>
                 <button onClick={addPost}>Add post
                 </button>
             </div>

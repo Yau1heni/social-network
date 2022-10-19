@@ -9,8 +9,7 @@ const Profile = (props: AppPropsType) => {
         <main className='app-wrapper-content'>
             <ProfileInfo/>
             <MyPosts state={props.state}
-                     addPostCallback={props.addPostCallback}
-                     updateNewPostText={props.updateNewPostText}
+                     dispatch={props.dispatch}
             />
         </main>
     );
