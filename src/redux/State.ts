@@ -1,14 +1,16 @@
+import {v1} from "uuid";
+
 type PostsType = {
-    id: number,
+    id: string,
     message: string,
     like: number
 }
-type DialogsType = {
-    id: number,
+export type DialogsType = {
+    id: string,
     name: string
 }
 type MessagesType = {
-    id: number,
+    id: string,
     message: string,
 }
 
@@ -19,26 +21,23 @@ type ProfilePageType = {
 type DialogsPageType = {
     dialogs: Array<DialogsType>
     messages: Array<MessagesType>
+    newMessageText: string
 }
 
 export type RootStateType = {
     profilePage: ProfilePageType
     dialogsPage: DialogsPageType
 }
-type ActionsTypes = AddPostActionType | UpdateNewPostType
+type ActionsTypes = AddPostActionType | UpdateNewPostType | AddNewMessage | UpdateNewMessage
 export type AppPropsType = {
     state: RootStateType
     dispatch?: (action: ActionsTypes) => void
 }
 
-type AddPostActionType = {
-    type: 'ADD-POST'
-
-}
-type UpdateNewPostType = {
-    type: 'UPDATE-NEW-POST'
-    newText: string
-}
+type AddPostActionType = ReturnType<typeof addPostAC>
+type UpdateNewPostType = ReturnType<typeof updateNewPostAC>
+type AddNewMessage = ReturnType<typeof addNewMessageAC>
+type UpdateNewMessage = ReturnType<typeof updateNewMessageAC>
 
 export type StoreType = {
     _state: RootStateType
@@ -53,28 +52,29 @@ const store: StoreType = {
     _state: {
         profilePage: {
             posts: [
-                {id: 1, message: 'Hi, how are you', like: 10},
-                {id: 2, message: 'It is my second messages', like: 1},
-                {id: 3, message: 'Hello', like: 32},
-                {id: 4, message: 'Good night', like: 13},
+                {id: v1(), message: 'Hi, how are you', like: 10},
+                {id: v1(), message: 'It is my second messages', like: 1},
+                {id: v1(), message: 'Hello', like: 32},
+                {id: v1(), message: 'Good night', like: 13},
             ],
-            newPostText: ''
+            newPostText: '',
         },
         dialogsPage: {
             dialogs: [
-                {id: 1, name: 'Zheka'},
-                {id: 2, name: 'Kalyan'},
-                {id: 3, name: 'Toha'},
-                {id: 4, name: 'Igarusha'},
-                {id: 5, name: 'Max'},
+                {id: v1(), name: 'Zheka'},
+                {id: v1(), name: 'Kalyan'},
+                {id: v1(), name: 'Toha'},
+                {id: v1(), name: 'Igarusha'},
+                {id: v1(), name: 'Max'},
             ],
             messages: [
-                {id: 1, message: 'Hi'},
-                {id: 2, message: 'How are you?'},
-                {id: 3, message: 'Hi'},
-                {id: 4, message: 'Hi'},
-                {id: 5, message: 'Hi'},
-            ]
+                {id: v1(), message: 'Hi'},
+                {id: v1(), message: 'How are you?'},
+                {id: v1(), message: 'Hi'},
+                {id: v1(), message: 'Hi'},
+                {id: v1(), message: 'Hi'},
+            ],
+            newMessageText: '',
         }
     },
     getState() {
@@ -89,7 +89,7 @@ const store: StoreType = {
     dispatch(action) {
         if (action.type === 'ADD-POST') {
             let newPost = {
-                id: 5,
+                id: v1(),
                 message: this._state.profilePage.newPostText,
                 like: 0
             }
@@ -98,8 +98,33 @@ const store: StoreType = {
         } else if (action.type === 'UPDATE-NEW-POST') {
             this._state.profilePage.newPostText = action.newText
             this.callSubscriber()
+        } else if (action.type === 'ADD-NEW-MESSAGE') {
+            let newMessage = {
+                id: v1(),
+                message: this._state.dialogsPage.newMessageText
+            }
+            store._state.dialogsPage.messages.push(newMessage)
+            this.callSubscriber()
+        }
+        else if (action.type === 'UPDATE-NEW-MESSAGE') {
+            this._state.dialogsPage.newMessageText = action.newMessage
+            this.callSubscriber()
         }
     }
 }
+//const ADD_POST = 'ADD-POST'
+export const addPostAC = () => {
+    return {type: 'ADD-POST'} as const
+}
+export const updateNewPostAC = (newText: string) => {
+    return {type: 'UPDATE-NEW-POST', newText} as const
+}
+export const addNewMessageAC = () => {
+    return {type: 'ADD-NEW-MESSAGE'} as const
+}
+export const updateNewMessageAC = (newMessage: string) => {
+    return {type: 'UPDATE-NEW-MESSAGE', newMessage} as const
+}
+
 
 export default store
