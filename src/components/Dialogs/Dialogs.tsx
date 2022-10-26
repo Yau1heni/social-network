@@ -2,7 +2,8 @@ import React from 'react';
 import s from "./Dialogs.module.css"
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
-import {addNewMessageAC, AppPropsType, updateNewMessageAC} from "../../redux/State";
+import { AppPropsType} from "../../redux/State";
+import {addNewMessageAC, updateNewMessageAC} from "../../redux/dialogs-reducer";
 
 const Dialogs = (props: AppPropsType) => {
     const newMessageElement = React.createRef<HTMLTextAreaElement>()

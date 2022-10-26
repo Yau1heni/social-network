@@ -1,7 +1,8 @@
 import React from 'react';
 import s from "./MyPosts.module.css";
 import Post from "./Post/Post";
-import {addPostAC, AppPropsType, updateNewPostAC} from "../../../redux/State";
+import {AppPropsType} from "../../../redux/State";
+import {addPostAC, updateNewPostAC} from "../../../redux/profile-reducer";
 
 
 const MyPosts = (props: AppPropsType) => {
