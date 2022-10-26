@@ -2,29 +2,34 @@ import React from 'react';
 import s from "./Dialogs.module.css"
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
-import { AppPropsType} from "../../redux/State";
-import {addNewMessageAC, updateNewMessageAC} from "../../redux/dialogs-reducer";
+import {DialogsType, MessagesType} from "../../redux/State";
 
-const Dialogs = (props: AppPropsType) => {
+type DialogsPropsType = {
+    addMessage: () => void
+    updateNewMessageText: (newMessageText: string) => void
+    dialogs: DialogsType[]
+    messages: MessagesType[]
+    newMessageText: string
+}
+
+const Dialogs = (props: DialogsPropsType) => {
+
     const newMessageElement = React.createRef<HTMLTextAreaElement>()
     const addMessage = () => {
         if (newMessageElement.current) {
-            props.dispatch?.(addNewMessageAC())
+            props.addMessage()
             newMessageElement.current.value = ''
         }
     }
     const onMessageChange = () => {
-        if (newMessageElement.current) {
-            let newMessageText = newMessageElement.current.value
-            props.dispatch?.(updateNewMessageAC(newMessageText))
-        }
-
+        let newMessageText = newMessageElement.current?.value
+        if (newMessageText) props.updateNewMessageText(newMessageText)
     }
 
-    const dialogsElements = props.state.dialogsPage.dialogs
-        .map(d => <DialogItem key={d.id} name={d.name} id={d.id}/>)
-    const messagesElements = props.state.dialogsPage.messages
-        .map(m => <Message key={m.id} message={m.message}/>)
+    const dialogsElements = props.dialogs
+        .map((d: DialogsType) => <DialogItem key={d.id} name={d.name} id={d.id}/>)
+    const messagesElements = props.messages
+        .map((m: MessagesType) => <Message key={m.id} message={m.message}/>)
 
     return (
         <div className={s.dialogs}>

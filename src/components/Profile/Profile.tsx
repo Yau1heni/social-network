@@ -1,16 +1,14 @@
 import React from 'react';
-import MyPosts from "./MyPosts/MyPosts";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
-import {AppPropsType} from "../../redux/State";
+import {StorePropsType} from "../../redux/State";
+import MyPostsContainer from "./MyPosts/MyPostsContainer";
 
-const Profile = (props: AppPropsType) => {
+const Profile = (props: StorePropsType) => {
 
     return (
         <main className='app-wrapper-content'>
             <ProfileInfo/>
-            <MyPosts state={props.state}
-                     dispatch={props.dispatch}
-            />
+            <MyPostsContainer store={props.store}/>
         </main>
     );
 };

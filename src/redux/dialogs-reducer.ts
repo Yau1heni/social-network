@@ -1,7 +1,25 @@
 import {v1} from "uuid";
-import {ActionsTypes} from "./State";
+import {ActionsTypes, DialogsPageType} from "./State";
 
-export const dialogsReducer = (state: any, action: ActionsTypes) => {
+const initialState: DialogsPageType = {
+    dialogs: [
+        {id: v1(), name: 'Zheka'},
+        {id: v1(), name: 'Kalyan'},
+        {id: v1(), name: 'Toha'},
+        {id: v1(), name: 'Igarusha'},
+        {id: v1(), name: 'Max'},
+    ],
+    messages: [
+        {id: v1(), message: 'Hi'},
+        {id: v1(), message: 'How are you?'},
+        {id: v1(), message: 'Hi'},
+        {id: v1(), message: 'Hi'},
+        {id: v1(), message: 'Hi'},
+    ],
+    newMessageText: '',
+}
+
+export const dialogsReducer = (state = initialState, action: ActionsTypes) => {
     switch (action.type) {
         case 'ADD-NEW-MESSAGE':
             let newMessage = {
@@ -13,7 +31,8 @@ export const dialogsReducer = (state: any, action: ActionsTypes) => {
         case 'UPDATE-NEW-MESSAGE':
             state.newMessageText = action.newMessage
             return state
-        default: return state
+        default:
+            return state
     }
 }
 

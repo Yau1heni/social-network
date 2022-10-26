@@ -1,26 +1,30 @@
 import React from 'react';
 import s from "./MyPosts.module.css";
 import Post from "./Post/Post";
-import {AppPropsType} from "../../../redux/State";
-import {addPostAC, updateNewPostAC} from "../../../redux/profile-reducer";
+import {PostsType} from "../../../redux/State";
 
+type MyPostsPropsType = {
+    updateNewPostText: (newText: string) => void
+    addPost: () => void
+    post: PostsType[]
+    newPostText: string
+}
 
-const MyPosts = (props: AppPropsType) => {
+const MyPosts = (props: MyPostsPropsType) => {
     const newPostElement = React.createRef<HTMLTextAreaElement>()
 
-    const addPost = () => {
-        if (newPostElement.current && props.dispatch) {
-            props.dispatch(addPostAC())
+    const onAddPost = () => {
+        if (newPostElement.current) {
+            props.addPost()
             newPostElement.current.value = ''
         }
     }
     const onPostChange = () => {
-        if (newPostElement.current && props.dispatch) {
-            let newText = newPostElement.current.value
-            props.dispatch(updateNewPostAC(newText))
-        }
+        let newText = newPostElement.current?.value
+        if (newText) props.updateNewPostText(newText)
+
     }
-    const postsElements = props.state.profilePage.posts.map((p) => <Post
+    const postsElements = props.post.map((p) => <Post
         key={p.id}
         message={p.message}
         like={p.like}/>)
@@ -34,7 +38,7 @@ const MyPosts = (props: AppPropsType) => {
                         onChange={onPostChange}>
                     </textarea>
                 </div>
-                <button onClick={addPost}>Add post
+                <button onClick={onAddPost}>Add post
                 </button>
             </div>
             <div className={s.posts}>

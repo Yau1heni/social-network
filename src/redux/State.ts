@@ -2,7 +2,7 @@ import {v1} from "uuid";
 import {profileReducer, AddPostActionType, UpdateNewPostType} from "./profile-reducer";
 import {dialogsReducer, AddNewMessage, UpdateNewMessage} from "./dialogs-reducer";
 
-type PostsType = {
+export type PostsType = {
     id: string,
     message: string,
     like: number
@@ -11,16 +11,16 @@ export type DialogsType = {
     id: string,
     name: string
 }
-type MessagesType = {
+export type MessagesType = {
     id: string,
     message: string,
 }
 
-type ProfilePageType = {
+export type ProfilePageType = {
     posts: Array<PostsType>
     newPostText: string
 }
-type DialogsPageType = {
+export type DialogsPageType = {
     dialogs: Array<DialogsType>
     messages: Array<MessagesType>
     newMessageText: string
@@ -30,12 +30,7 @@ export type RootStateType = {
     profilePage: ProfilePageType
     dialogsPage: DialogsPageType
 }
-export type ActionsTypes = AddPostActionType | UpdateNewPostType |AddNewMessage | UpdateNewMessage
-
-export type AppPropsType = {
-    state: RootStateType
-    dispatch?: (action: ActionsTypes) => void
-}
+export type ActionsTypes = AddPostActionType | UpdateNewPostType | AddNewMessage | UpdateNewMessage
 
 export type StoreType = {
     _state: RootStateType
@@ -43,6 +38,10 @@ export type StoreType = {
     callSubscriber: () => void
     subscribe: (observer: () => void) => void
     dispatch: (action: ActionsTypes) => void
+}
+
+export type StorePropsType = {
+    store: StoreType
 }
 
 
