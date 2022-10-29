@@ -7,21 +7,19 @@ import Profile from "./components/Profile/Profile";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
-import {StorePropsType} from "./redux/State";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 
-const App = (props: StorePropsType) => {
-
+const App = () => {
     return (
         <div className='app-wrapper'>
             <Header/>
             <Navbar/>
             <div className='app-wrapper-content'>
                 <Route path='/dialogs'
-                       render={() => <DialogsContainer store={props.store}/>}>
+                       render={() => <DialogsContainer/>}>
                 </Route>
                 <Route path='/profile'
-                       render={() => <Profile store={props.store}/>}>
+                       render={() => <Profile/>}>
                 </Route>
                 <Route path='/news' render={() => <News/>}></Route>
                 <Route path='/music' render={() => <Music/>}></Route>

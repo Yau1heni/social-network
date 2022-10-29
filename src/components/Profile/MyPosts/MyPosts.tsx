@@ -1,16 +1,9 @@
 import React from 'react';
 import s from "./MyPosts.module.css";
 import Post from "./Post/Post";
-import {PostsType} from "../../../redux/State";
+import {PostsPropsType} from "./MyPostsContainer";
 
-type MyPostsPropsType = {
-    updateNewPostText: (newText: string) => void
-    addPost: () => void
-    post: PostsType[]
-    newPostText: string
-}
-
-const MyPosts = (props: MyPostsPropsType) => {
+const MyPosts = (props: PostsPropsType) => {
     const newPostElement = React.createRef<HTMLTextAreaElement>()
 
     const onAddPost = () => {
@@ -24,7 +17,7 @@ const MyPosts = (props: MyPostsPropsType) => {
         if (newText) props.updateNewPostText(newText)
 
     }
-    const postsElements = props.post.map((p) => <Post
+    const postsElements = props.posts.map((p) => <Post
         key={p.id}
         message={p.message}
         like={p.like}/>)

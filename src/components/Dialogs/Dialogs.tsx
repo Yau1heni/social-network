@@ -2,18 +2,18 @@ import React from 'react';
 import s from "./Dialogs.module.css"
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
-import {DialogsType, MessagesType} from "../../redux/State";
+import {DialogsPropsType} from "./DialogsContainer";
 
-type DialogsPropsType = {
-    addMessage: () => void
-    updateNewMessageText: (newMessageText: string) => void
-    dialogs: DialogsType[]
-    messages: MessagesType[]
-    newMessageText: string
+export type DialogsType = {
+    id: string,
+    name: string
+}
+type MessagesType = {
+    id: string,
+    message: string,
 }
 
 const Dialogs = (props: DialogsPropsType) => {
-
     const newMessageElement = React.createRef<HTMLTextAreaElement>()
     const addMessage = () => {
         if (newMessageElement.current) {
@@ -26,9 +26,9 @@ const Dialogs = (props: DialogsPropsType) => {
         if (newMessageText) props.updateNewMessageText(newMessageText)
     }
 
-    const dialogsElements = props.dialogs
+    const dialogsElements = props.dialogsPage.dialogs
         .map((d: DialogsType) => <DialogItem key={d.id} name={d.name} id={d.id}/>)
-    const messagesElements = props.messages
+    const messagesElements = props.dialogsPage.messages
         .map((m: MessagesType) => <Message key={m.id} message={m.message}/>)
 
     return (
