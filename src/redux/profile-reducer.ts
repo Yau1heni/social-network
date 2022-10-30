@@ -1,7 +1,6 @@
 import {v1} from "uuid";
 import {ActionsTypes} from "./redux-store";
 
-
 export type PostsType = {
     id: string,
     message: string,
