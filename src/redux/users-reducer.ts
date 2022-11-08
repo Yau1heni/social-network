@@ -1,46 +1,35 @@
-import {v1} from "uuid";
-
-type LocationType = {
-    city: string
-    country: string
-}
-
-export type UsersType = {
-    id: string
-    followed: boolean
-    fullName: string
-    status: string
-    location: LocationType
-}
+import {GetItemType} from '../components/Users/Users';
 
 export type initialUsersStateType = {
-    users: UsersType[]
+    items: GetItemType[]
 }
 
 const initialState = {
-    users: [
+    items: [
         {
-            id: v1(),
-            followed: true,
-            fullName: 'Zheka',
+            name: 'Zheka',
+            id: '1',
+            uniqueUrlName: 'Yau!',
+            photos:
+                {
+                    small: 's',
+                    large: 'l'
+                },
             status: 'I am boss',
-            location: {city: 'Nemanitca', country: 'Belarus'}
+            followed: true,
         },
         {
-            id: v1(),
+            name: 'Kolya',
+            id: '2',
+            uniqueUrlName: 'Nick',
+            photos:
+                {
+                    small: 's',
+                    large: 'l'
+                },
+            status: 'I am boss too',
             followed: true,
-            fullName: 'Andrew',
-            status: 'I am ghost',
-            location: {city: 'Zhodzina', country: 'Belarus'}
-        },
-        {
-            id: v1(),
-            followed: true,
-            fullName: 'Max',
-            status: 'I am boss',
-            location: {city: 'Barysaw', country: 'Belarus'}
-        },
-
+        }
     ]
 }
 
@@ -49,10 +38,10 @@ export const userReducer = (state: initialUsersStateType = initialState, action:
         case 'FOLLOW-UNFOLLOW':
             return {
                 ...state,
-                users: state.users.map(u => u.id === action.payload.idUser ? {...u, followed: !u.followed} : u)
+                items: state.items.map(u => u.id === action.payload.idUser ? {...u, followed: !u.followed} : u)
             }
         case 'SET-USERS':
-            return {...state, users: [...state.users, ...action.payload.users]}
+            return {...state, items: [...state.items, ...action.payload.users]}
         default:
             return state
     }
@@ -71,7 +60,7 @@ export const followedAC = (idUser: string) => {
         },
     } as const
 }
-export const setUsersAC = (users: UsersType[]) => {
+export const setUsersAC = (users: GetItemType[]) => {
     return {
         type: 'SET-USERS',
         payload: {
@@ -80,7 +69,7 @@ export const setUsersAC = (users: UsersType[]) => {
     } as const
 }
 /*
-const unfollowAC = (idUser: string) => {
+const unfollowAC = (idUser: number) => {
     return {
         type: 'UNFOLLOW',
         payload: {

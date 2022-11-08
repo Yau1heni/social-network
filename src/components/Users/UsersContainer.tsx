@@ -1,24 +1,24 @@
 import React from 'react';
 import {connect} from "react-redux";
 import {AppStoreType} from "../../redux/redux-store";
-import {followedAC, setUsersAC, UsersType} from "../../redux/users-reducer";
-import Users from "./Users";
+import {followedAC, setUsersAC} from "../../redux/users-reducer";
+import Users, {GetItemType} from './Users';
 
 
 type MapStatePropsType = {
-    users: UsersType[]
+    users: GetItemType[]
 }
 
 type MapDispatchPropsType = {
     follow: (idUser: string) => void
-    setUsers: (users: UsersType[]) => void
+    setUsers: (users: GetItemType[]) => void
 }
 
 export type UsersPropsType = MapStatePropsType & MapDispatchPropsType
 
 let mapStateToProps = (state: AppStoreType) => {
     return {
-        users: state.userReducer.users
+        users: state.userReducer.items
     }
 }
 
@@ -27,7 +27,7 @@ let mapDispatchToProps = (dispatch: any) => {
         follow: (idUser: string) => {
             dispatch(followedAC(idUser))
         },
-        setUsers: (users: UsersType[]) => {
+        setUsers: (users: GetItemType[]) => {
             dispatch(setUsersAC(users))
         }
     }
