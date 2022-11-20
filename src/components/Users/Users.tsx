@@ -1,6 +1,7 @@
 import React from 'react';
 import s from './Users.module.css';
 import {GetItemType} from './UsersContainer';
+import userPhoto from '../../assets/img/userPhoto.png'
 
 type UsersPropsType = {
     totalUsersCount: number
@@ -8,7 +9,7 @@ type UsersPropsType = {
     currentPage: number
     onPageChanged: (pageNumber: number) => void
     users: GetItemType[]
-    follow: (idUser: string)=>void
+    follow: (idUser: string) => void
 }
 const Users = (props: UsersPropsType) => {
 
@@ -22,18 +23,24 @@ const Users = (props: UsersPropsType) => {
         <div>
             <div>
                 {pages.map(p => {
-                    return <span className={(props.currentPage === p) ? s.selectedPages : ''}
+                    return <span className={`${s.pagesElem} 
+                    ${(props.currentPage === p) ? s.selectedPages : ''}`
+                    }
                                  onClick={() => {
                                      props.onPageChanged(p)
                                  }}>{p}</span>
-                })}
+                })
+                }
             </div>
             {
                 props.users.map((u: GetItemType) =>
-                    <div key={u.id}>
+                    <div key={u.id} className={s.users}>
                     <span>
                         <div>
-                            img
+                            <img
+                                className={s.avatar}
+                                src={u.photos.small !== null ? u.photos.small : userPhoto}
+                            />
                         </div>
                     </span>
                         <span>

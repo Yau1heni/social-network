@@ -1,3 +1,15 @@
 .selectedPages {
     font-weight: bold;
+
+}
+.pagesElem{
+    margin: 0 5px;
+}
+
+.avatar{
+    width: 50px;
+}
+
+.users {
+    margin: 15px 10px;
 }
