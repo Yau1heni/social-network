@@ -1,17 +1,17 @@
-import {GetItemType} from '../components/Users/Users';
+import {GetItemType} from '../components/Users/UsersContainer';
 
 export type initialUsersStateType = {
     users: GetItemType[]
     pageSize: number
     totalUsersCount: number
-    currentPages: number
+    currentPage: number
 }
 
 const initialState: initialUsersStateType = {
     users: [],
     pageSize: 5,
     totalUsersCount: 25,
-    currentPages: 1,
+    currentPage: 1,
 
 }
 
@@ -25,7 +25,7 @@ export const userReducer = (state = initialState, action: ActionType): initialUs
         case 'SET-USERS':
             return {...state, users: action.payload.users}
         case 'SET-CURRENT-PAGE':
-            return {...state, currentPages: action.payload.currentPages}
+            return {...state, currentPage: action.payload.currentPage}
         case 'SET-TOTAL-USERS-COUNT':
             return {...state, totalUsersCount: action.payload.totalCount}
         default:
@@ -59,11 +59,11 @@ export const setUsersAC = (users: GetItemType[]) => {
         },
     } as const
 }
-export const setCurrentPageAC = (currentPages: number) => {
+export const setCurrentPageAC = (currentPage: number) => {
     return {
         type: 'SET-CURRENT-PAGE',
         payload: {
-            currentPages,
+            currentPage,
         },
     } as const
 }
