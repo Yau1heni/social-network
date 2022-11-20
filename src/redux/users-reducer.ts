@@ -1,56 +1,47 @@
 import {GetItemType} from '../components/Users/Users';
 
 export type initialUsersStateType = {
-    items: GetItemType[]
+    users: GetItemType[]
+    pageSize: number
+    totalUsersCount: number
+    currentPages: number
 }
 
-const initialState = {
-    items: [
-        {
-            name: 'Zheka',
-            id: '1',
-            uniqueUrlName: 'Yau!',
-            photos:
-                {
-                    small: 's',
-                    large: 'l'
-                },
-            status: 'I am boss',
-            followed: true,
-        },
-        {
-            name: 'Kolya',
-            id: '2',
-            uniqueUrlName: 'Nick',
-            photos:
-                {
-                    small: 's',
-                    large: 'l'
-                },
-            status: 'I am boss too',
-            followed: true,
-        }
-    ]
+const initialState: initialUsersStateType = {
+    users: [],
+    pageSize: 5,
+    totalUsersCount: 25,
+    currentPages: 1,
+
 }
 
-export const userReducer = (state: initialUsersStateType = initialState, action: ActionType): initialUsersStateType => {
+export const userReducer = (state = initialState, action: ActionType): initialUsersStateType => {
     switch (action.type) {
         case 'FOLLOW-UNFOLLOW':
             return {
                 ...state,
-                items: state.items.map(u => u.id === action.payload.idUser ? {...u, followed: !u.followed} : u)
+                users: state.users.map(u => u.id === action.payload.idUser ? {...u, followed: !u.followed} : u)
             }
         case 'SET-USERS':
-            return {...state, items: [...state.items, ...action.payload.users]}
+            return {...state, users: action.payload.users}
+        case 'SET-CURRENT-PAGE':
+            return {...state, currentPages: action.payload.currentPages}
+        case 'SET-TOTAL-USERS-COUNT':
+            return {...state, totalUsersCount: action.payload.totalCount}
         default:
             return state
     }
 }
 
-export type ActionType = FollowActionType | SetUsersActionType
+export type ActionType = FollowActionType
+    | SetUsersActionType
+    | SetCurrentPageActionType
+    | SetTotalUsersCountActionType
+
 export type FollowActionType = ReturnType<typeof followedAC>
 export type SetUsersActionType = ReturnType<typeof setUsersAC>
-//export type UnfollowActionType = ReturnType<typeof unfollowAC>
+export type SetCurrentPageActionType = ReturnType<typeof setCurrentPageAC>
+export type SetTotalUsersCountActionType = ReturnType<typeof setTotalUsersCountAC>
 
 export const followedAC = (idUser: string) => {
     return {
@@ -68,12 +59,20 @@ export const setUsersAC = (users: GetItemType[]) => {
         },
     } as const
 }
-/*
-const unfollowAC = (idUser: number) => {
+export const setCurrentPageAC = (currentPages: number) => {
     return {
-        type: 'UNFOLLOW',
+        type: 'SET-CURRENT-PAGE',
         payload: {
-            idUser,
+            currentPages,
         },
     } as const
-}*/
+}
+export const setTotalUsersCountAC = (totalCount: number) => {
+    return {
+        type: 'SET-TOTAL-USERS-COUNT',
+        payload: {
+            totalCount,
+        },
+    } as const
+}
+
