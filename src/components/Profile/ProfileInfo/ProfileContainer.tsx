@@ -24,28 +24,27 @@ type PropsType = RouteComponentProps<PathParamsType> & OwnPropsType
 class ProfileContainer extends React.Component<any, PropsType> {
 
     componentDidMount() {
-        let userId = this.props.match.params.userId
-        if (!userId) userId = 2
+        let userId = this.props.match.params.userId;
+        if (!userId) userId = 2;
         axios.get<any>(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`)
-            .then((res: AxiosResponse) => {
-                this.props.setUserProfile(res.data)
-                console.log(res.data)
-            })
+                .then((res: AxiosResponse) => {
+                    this.props.setUserProfile(res.data);
+                });
     }
 
     render() {
         return (
-            <Profile {...this.props} profile={this.props.profile}/>
+                <Profile {...this.props} profile={this.props.profile}/>
         );
     }
-};
+}
 
 let mapStateToProps = (state: AppStoreType): MapStatePropsType => {
     return {
         profile: state.profileReducer.profile
-    }
-}
+    };
+};
 
-let WithUrlDataContainer = withRouter(ProfileContainer)
+let WithUrlDataContainer = withRouter(ProfileContainer);
 
 export default connect(mapStateToProps, {setUserProfile})(WithUrlDataContainer);
