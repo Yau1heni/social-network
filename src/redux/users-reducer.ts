@@ -106,7 +106,7 @@ export const toggleIsFetching = (isFetching: boolean) => {
     } as const;
 };
 
-export const getUsersTC = (pageSize = 5, currentPage: number) => {
+export const getUsersTC = (pageSize:number, currentPage: number) => {
     return (dispatch: Dispatch) => {
         toggleIsFetching(true);
         usersAPI.getUsers(pageSize, currentPage)

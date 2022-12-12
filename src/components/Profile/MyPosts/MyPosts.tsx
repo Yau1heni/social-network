@@ -1,7 +1,7 @@
 import React from 'react';
-import s from "./MyPosts.module.css";
-import Post from "./Post/Post";
-import {PostsPropsType} from "./MyPostsContainer";
+import s from './MyPosts.module.css';
+import Post from './Post/Post';
+import {PostsPropsType} from './MyPostsContainer';
 
 const MyPosts = (props: PostsPropsType) => {
     const newPostElement = React.createRef<HTMLTextAreaElement>()
@@ -17,10 +17,14 @@ const MyPosts = (props: PostsPropsType) => {
         if (newText) props.updateNewPostText(newText)
 
     }
+
+
+
     const postsElements = props.posts.map((p) => <Post
         key={p.id}
         message={p.message}
         like={p.like}/>)
+
     return (
         <div className={s.posts_block}>
             <h3>My posts</h3>

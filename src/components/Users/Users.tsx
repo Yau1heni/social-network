@@ -26,46 +26,43 @@ const Users = (props: UsersPropsType) => {
             <div>
                 {pages.map(p => {
                     return <span key={p} className={`${s.pagesElem} 
-                    ${(props.currentPage === p) ? s.selectedPages : ''}`
-                    }
+                    ${(props.currentPage === p) ? s.selectedPages : ''}`}
                                  onClick={() => {
                                      props.onPageChanged(p);
                                  }}>{p}</span>;
-                })
-                }
-            </div>
-            {
-                props.users.map((u: GetItemType) =>
-                    <div key={u.id} className={s.users}>
+                })}
 
+            </div>
+            {props.users.map((u: GetItemType) =>
+                <div key={u.id} className={s.users}>
+                    <span>
                         <div>
                             <NavLink to={'/profile/' + u.id}>
-                                <img alt='img'
-                                    className={s.avatar}
-                                    src={u.photos.small !== null ? u.photos.small : userPhoto}
+                                <img alt="img"
+                                     className={s.avatar}
+                                     src={u.photos.small !== null ? u.photos.small : userPhoto}
                                 />
                             </NavLink>
                         </div>
+                    </span>
 
-                        <div>
-                            {u.followed && <button onClick={() => {
-                                props.unfollow(u.id);
-                            }}>Unfollow</button>}
+                    <div>
+                        {u.followed && <button onClick={() => {
+                            props.unfollow(u.id);
+                        }}>Unfollow</button>}
 
-                            {!u.followed && <button onClick={() => {
-                                props.follow(u.id);
-                            }}>Follow</button>}
+                        {!u.followed && <button onClick={() => {
+                            props.follow(u.id);
+                        }}>Follow</button>}
 
-                            <div>{u.name}</div>
-                            <div>{u.status}</div>
+                        <div>{u.name}</div>
+                        <div>{u.status}</div>
 
-                            <div>{'u.location.country'}</div>
-                            <div>{'u.location.city'}</div>
-                        </div>
-
+                        <div>{'u.location.country'}</div>
+                        <div>{'u.location.city'}</div>
                     </div>
-                )
-            }
+                </div>
+            )}
         </div>
     );
 };

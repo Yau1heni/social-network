@@ -7,6 +7,7 @@ import {AppStoreType} from "../../../redux/redux-store";
 
 type MapStatePropsType = {
     posts: Array<PostsType>
+    isAuth: boolean
 }
 
 type MapDispatchPropsType = {
@@ -19,7 +20,8 @@ export type PostsPropsType = MapStatePropsType & MapDispatchPropsType
 
 let mapStateToProps = (state: AppStoreType): MapStatePropsType => {
     return {
-        posts: state.profileReducer.posts
+        posts: state.profileReducer.posts,
+        isAuth: state.auth.isAuth
     }
 }
 
