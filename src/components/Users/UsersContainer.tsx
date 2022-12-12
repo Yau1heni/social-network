@@ -1,25 +1,19 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {AppStoreType} from '../../redux/redux-store';
-import {
-    follow,
-    setCurrentPage,
-    setTotalUsersCount,
-    setUsers, toggleIsFetching
-} from '../../redux/users-reducer';
+import {follow, getUsersTC, setCurrentPage, setTotalUsersCount, unfollow} from '../../redux/users-reducer';
 import Users from './Users';
 import Preloader from '../../common/Preloader/Preloader';
-import {usersAPI} from '../../api/api';
 
 export type GetItemType = {
     name: string
     id: string
     uniqueUrlName: string
     photos:
-            {
-                small: string
-                large: string
-            }
+        {
+            small: string
+            large: string
+        }
     status: string
     followed: boolean
 }
@@ -30,10 +24,10 @@ export type GetUsersType = {
 
 type MapDispatchPropsType = {
     follow: (idUser: string) => void
-    setUsers: (users: GetItemType[]) => void
+    unfollow: (idUser: string) => void
     setCurrentPage: (currentPage: number) => void
     setTotalUsersCount: (totalCount: number) => void
-    toggleIsFetching: (isFetching: boolean) => void
+    getUsersTC: (pageSize: number, currentPage: number) => any
 }
 
 type mapStateToPropsType = {
@@ -48,38 +42,28 @@ type UsersContainerPropsType = mapStateToPropsType & MapDispatchPropsType
 
 class UsersContainer extends React.Component<UsersContainerPropsType, GetItemType> {
     componentDidMount() {
-
-        usersAPI.getUsers(this.props.pageSize, this.props.pageSize)
-                .then((data: any) => {
-                    this.props.toggleIsFetching(false);
-                    this.props.setUsers(data.items);
-                    this.props.setTotalUsersCount(data.totalCount);
-                });
+        this.props.getUsersTC(this.props.pageSize, this.props.currentPage);
     }
 
-    onPageChanged = (pageNumber: number) => {
-        this.props.toggleIsFetching(true);
-        this.props.setCurrentPage(pageNumber);
-        usersAPI.getUsers(pageNumber, this.props.pageSize)
-                .then((data: any) => {
-                    this.props.toggleIsFetching(false);
-                    this.props.setUsers(data.items);
-                });
+    onPageChanged = (currentPage: number) => {
+        this.props.setCurrentPage(currentPage);
+        this.props.getUsersTC(this.props.pageSize, currentPage);
     };
 
     render() {
         return (
-                <>
-                    {this.props.isFetching && <Preloader/>}
-                    <Users
-                            totalUsersCount={this.props.totalUsersCount}
-                            pageSize={this.props.pageSize}
-                            currentPage={this.props.currentPage}
-                            onPageChanged={this.onPageChanged}
-                            users={this.props.users}
-                            follow={this.props.follow}
-                    />
-                </>
+            <>
+                {this.props.isFetching && <Preloader/>}
+                <Users
+                    totalUsersCount={this.props.totalUsersCount}
+                    pageSize={this.props.pageSize}
+                    currentPage={this.props.currentPage}
+                    onPageChanged={this.onPageChanged}
+                    users={this.props.users}
+                    follow={this.props.follow}
+                    unfollow={this.props.unfollow}
+                />
+            </>
         );
     }
 }
@@ -94,10 +78,11 @@ let mapStateToProps = (state: AppStoreType) => {
     };
 };
 
+
 export default connect(mapStateToProps, {
     follow,
-    setUsers,
+    unfollow,
     setCurrentPage,
     setTotalUsersCount,
-    toggleIsFetching,
+    getUsersTC
 })(UsersContainer);

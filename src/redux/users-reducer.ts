@@ -1,4 +1,6 @@
 import {GetItemType} from '../components/Users/UsersContainer';
+import {Dispatch} from 'redux';
+import {usersAPI} from '../api/api';
 
 export type initialUsersStateType = {
     users: GetItemType[]
@@ -13,37 +15,43 @@ const initialState: initialUsersStateType = {
     pageSize: 5,
     totalUsersCount: 25,
     currentPage: 1,
-    isFetching: false,
-
-}
+    isFetching: false
+};
 
 export const userReducer = (state = initialState, action: ActionType): initialUsersStateType => {
     switch (action.type) {
-        case 'FOLLOW-UNFOLLOW':
+        case 'FOLLOW':
             return {
                 ...state,
-                users: state.users.map(u => u.id === action.payload.idUser ? {...u, followed: !u.followed} : u)
-            }
+                users: state.users.map(u => u.id === action.payload.idUser ? {...u, followed: true} : u)
+            };
+        case 'UNFOLLOW':
+            return {
+                ...state,
+                users: state.users.map(u => u.id === action.payload.idUser ? {...u, followed: false} : u)
+            };
         case 'SET-USERS':
-            return {...state, users: action.payload.users}
+            return {...state, users: action.payload.users};
         case 'SET-CURRENT-PAGE':
-            return {...state, currentPage: action.payload.currentPage}
+            return {...state, currentPage: action.payload.currentPage};
         case 'SET-TOTAL-USERS-COUNT':
-            return {...state, totalUsersCount: action.payload.totalCount}
+            return {...state, totalUsersCount: action.payload.totalCount};
         case 'TOGGLE-IS-FETCHING':
-            return {...state, isFetching: action.payload.isFetching}
+            return {...state, isFetching: action.payload.isFetching};
         default:
-            return state
+            return state;
     }
-}
+};
 
 export type ActionType = FollowActionType
+    | UnfollowActionType
     | SetUsersActionType
     | SetCurrentPageActionType
     | SetTotalUsersCountActionType
     | ToggleIsFetchingActionType
 
 export type FollowActionType = ReturnType<typeof follow>
+export type UnfollowActionType = ReturnType<typeof unfollow>
 export type SetUsersActionType = ReturnType<typeof setUsers>
 export type SetCurrentPageActionType = ReturnType<typeof setCurrentPage>
 export type SetTotalUsersCountActionType = ReturnType<typeof setTotalUsersCount>
@@ -51,42 +59,64 @@ export type ToggleIsFetchingActionType = ReturnType<typeof toggleIsFetching>
 
 export const follow = (idUser: string) => {
     return {
-        type: 'FOLLOW-UNFOLLOW',
+        type: 'FOLLOW',
         payload: {
-            idUser,
-        },
-    } as const
-}
+            idUser
+        }
+    } as const;
+};
+export const unfollow = (idUser: string) => {
+    return {
+        type: 'UNFOLLOW',
+        payload: {
+            idUser
+        }
+    } as const;
+};
 export const setUsers = (users: GetItemType[]) => {
     return {
         type: 'SET-USERS',
         payload: {
-            users,
-        },
-    } as const
-}
+            users
+        }
+    } as const;
+};
 export const setCurrentPage = (currentPage: number) => {
     return {
         type: 'SET-CURRENT-PAGE',
         payload: {
-            currentPage,
-        },
-    } as const
-}
+            currentPage
+        }
+    } as const;
+};
 export const setTotalUsersCount = (totalCount: number) => {
     return {
         type: 'SET-TOTAL-USERS-COUNT',
         payload: {
-            totalCount,
-        },
-    } as const
-}
+            totalCount
+        }
+    } as const;
+};
 export const toggleIsFetching = (isFetching: boolean) => {
     return {
         type: 'TOGGLE-IS-FETCHING',
         payload: {
-            isFetching,
-        },
-    } as const
-}
+            isFetching
+        }
+    } as const;
+};
+
+export const getUsersTC = (pageSize = 5, currentPage: number) => {
+    return (dispatch: Dispatch) => {
+        toggleIsFetching(true);
+        usersAPI.getUsers(pageSize, currentPage)
+            .then((data: any) => {
+                dispatch(toggleIsFetching(false));
+                dispatch(setUsers(data.items));
+                dispatch(setTotalUsersCount(data.totalCount));
+            });
+    };
+};
+
+
 
