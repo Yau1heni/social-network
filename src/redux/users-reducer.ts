@@ -15,7 +15,7 @@ const initialState: initialUsersStateType = {
     pageSize: 5,
     totalUsersCount: 25,
     currentPage: 1,
-    isFetching: false
+    isFetching: true
 };
 
 export const userReducer = (state = initialState, action: ActionType): initialUsersStateType => {
@@ -108,7 +108,7 @@ export const toggleIsFetching = (isFetching: boolean) => {
 
 export const getUsersTC = (pageSize:number, currentPage: number) => {
     return (dispatch: Dispatch) => {
-        toggleIsFetching(true);
+        dispatch(toggleIsFetching(true));
         usersAPI.getUsers(pageSize, currentPage)
             .then((data: any) => {
                 dispatch(toggleIsFetching(false));
