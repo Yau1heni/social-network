@@ -24,9 +24,17 @@ export const usersAPI = {
     unfollow(userId: string) {
         return instance.delete(`follow/${userId}`).then((res => res.data));
     },
+};
+export const profileAPI = {
     getProfile(userId: string) {
-        return instance.get<any>(`profile/${userId}`);
-    }
+        return instance.get(`profile/${userId}`);
+    },
+    getStatus: (id: number) => {
+        return instance.get(`profile/status/${id}`).then(response => response.data);
+    },
+    updateStatus: (status: string) => {
+        return instance.put(`profile/status`, {status}).then(response => response.data);
+    },
 };
 
 export const authMe = {

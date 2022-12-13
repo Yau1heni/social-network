@@ -19,11 +19,11 @@ const MyPosts = (props: PostsPropsType) => {
     }
 
 
-
     const postsElements = props.posts.map((p) => <Post
         key={p.id}
         message={p.message}
-        like={p.like}/>)
+        like={p.like}
+    />)
 
     return (
         <div className={s.posts_block}>

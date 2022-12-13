@@ -1,4 +1,3 @@
-import {ActionsTypes} from './redux-store';
 import {Dispatch} from 'redux';
 import {authMe} from '../api/api';
 
@@ -9,6 +8,8 @@ type initialUsersStateType = {
     isAuth: boolean
 }
 
+export type setUserDataActionType = ReturnType<typeof setAuthUserData>
+
 const initialState: initialUsersStateType = {
     id: null,
     email: null,
@@ -16,22 +17,17 @@ const initialState: initialUsersStateType = {
     isAuth: false
 };
 
-export const authReducer = (state = initialState, action: ActionsTypes): initialUsersStateType => {
-
+export const authReducer = (state = initialState, action: setUserDataActionType): initialUsersStateType => {
     switch (action.type) {
         case 'SET-USER-DATA':
-            debugger
             return {
                 ...state,
                 ...action.data, isAuth: true
             };
-
         default:
             return state;
     }
 };
-
-export type setUserDataActionType = ReturnType<typeof setAuthUserData>
 
 export const setAuthUserData = (id: number, email: string, login: string) => {
     return {

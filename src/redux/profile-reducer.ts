@@ -1,7 +1,6 @@
 import {v1} from 'uuid';
-import {ActionsTypes} from './redux-store';
 import {Dispatch} from 'redux';
-import {usersAPI} from '../api/api';
+import {profileAPI} from '../api/api';
 
 export type PostsType = {
     id: string,
@@ -12,8 +11,19 @@ export type PostsType = {
 export type InitialStatePostType = {
     posts: Array<PostsType>
     newPostText: string
-    profile: any
+    profile: null | string
+    status: string
 }
+
+export type AddPostActionType = ReturnType<typeof addPostAC>
+export type UpdateNewPostType = ReturnType<typeof updateNewPostAC>
+export type setUserProfileType = ReturnType<typeof setUserProfile>
+export type setUserStatusType = ReturnType<typeof setUserStatus>
+
+type ProfileActionType = AddPostActionType
+    | UpdateNewPostType
+    | setUserProfileType
+    | setUserStatusType
 
 const initialState: InitialStatePostType = {
     posts: [
@@ -23,10 +33,11 @@ const initialState: InitialStatePostType = {
         {id: v1(), message: 'Good night', like: 13}
     ],
     newPostText: '',
-    profile: null
+    profile: null,
+    status: ''
 };
 
-export const profileReducer = (state = initialState, action: ActionsTypes): InitialStatePostType => {
+export const profileReducer = (state = initialState, action: ProfileActionType): InitialStatePostType => {
     switch (action.type) {
         case 'ADD-POST': {
             let newPost = {
@@ -42,14 +53,14 @@ export const profileReducer = (state = initialState, action: ActionsTypes): Init
         case 'SET-USER-PROFILE': {
             return {...state, profile: action.profile};
         }
+        case 'SET-USER-STATUS': {
+            return {...state, status: action.status};
+        }
         default:
             return state;
     }
 };
 
-export type AddPostActionType = ReturnType<typeof addPostAC>
-export type UpdateNewPostType = ReturnType<typeof updateNewPostAC>
-export type setUserProfileType = ReturnType<typeof setUserProfile>
 
 export const addPostAC = () => {
     return {type: 'ADD-POST'} as const;
@@ -60,11 +71,31 @@ export const updateNewPostAC = (newText: string) => {
 export const setUserProfile = (profile: any) => {
     return {type: 'SET-USER-PROFILE', profile} as const;
 };
+export const setUserStatus = (status: string) => {
+    return {type: 'SET-USER-STATUS', status} as const;
+};
 
 export const getUserProfile = (userId: string) => {
     return (dispatch: Dispatch) => {
-        usersAPI.getProfile(userId).then(res => {
+        profileAPI.getProfile(userId).then(res => {
             dispatch(setUserProfile(res.data));
+        });
+    };
+};
+export const getUserStatus = (id: number) => {
+    return (dispatch: Dispatch) => {
+        profileAPI.getStatus(id).then(res => {
+            dispatch(setUserStatus(res));
+        });
+    };
+};
+export const updateUserStatus = (status: string) => {
+    return (dispatch: Dispatch) => {
+        profileAPI.updateStatus(status).then(res => {
+            if (res.data.resultCode === 0) {
+                dispatch(setUserStatus(status));
+            }
+
         });
     };
 };
