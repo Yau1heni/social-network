@@ -4,6 +4,8 @@ import {AppStoreType} from '../../redux/redux-store';
 import {follow, getUsersTC, setCurrentPage, setTotalUsersCount, unfollow} from '../../redux/users-reducer';
 import Users from './Users';
 import Preloader from '../../common/Preloader/Preloader';
+import {compose} from 'redux';
+import {withAuthRedirect} from '../../hoc/WithAuthRedirect';
 
 export type GetItemType = {
     name: string
@@ -78,11 +80,13 @@ let mapStateToProps = (state: AppStoreType) => {
     };
 };
 
-
-export default connect(mapStateToProps, {
-    follow,
-    unfollow,
-    setCurrentPage,
-    setTotalUsersCount,
-    getUsersTC
-})(UsersContainer);
+export default compose<React.ComponentType>(
+    connect(mapStateToProps, {
+        follow,
+        unfollow,
+        setCurrentPage,
+        setTotalUsersCount,
+        getUsersTC
+    }),
+    withAuthRedirect
+)(UsersContainer)
