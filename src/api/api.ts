@@ -3,7 +3,6 @@ import {GetUsersType} from '../components/Users/UsersContainer';
 import {GetAuthItemType} from '../components/Header/HeaderContainer';
 
 
-
 const instance = axios.create({
     withCredentials: true,
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
@@ -23,22 +22,23 @@ export const usersAPI = {
     },
     unfollow(userId: string) {
         return instance.delete(`follow/${userId}`).then((res => res.data));
-    },
+    }
 };
 export const profileAPI = {
     getProfile(userId: string) {
-        return instance.get(`profile/${userId}`);
+        return instance.get(`profile/${userId}`)
     },
     getStatus: (id: number) => {
-        return instance.get(`profile/status/${id}`).then(response => response.data);
+        return instance.get(`profile/status/${id}`)
     },
     updateStatus: (status: string) => {
-        return instance.put(`profile/status`, {status}).then(response => response.data);
-    },
+        return instance.put(`profile/status`, {status}).then((res => res.data));
+
+    }
 };
 
 export const authMe = {
-    me(){
-        return instance.get<GetAuthItemType>('auth/me')
+    me() {
+        return instance.get<GetAuthItemType>('auth/me').then((res => res.data));
     }
-}
+};

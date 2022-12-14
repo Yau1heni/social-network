@@ -43,8 +43,8 @@ export const setAuthUserData = (id: number, email: string, login: string) => {
 export const getAuthUserData = () => {
     return (dispatch: Dispatch) => {
         authMe.me().then(res => {
-            if (res.data.resultCode === 0) {
-                let {id, email, login} = res.data.data;
+            if (res.resultCode === 0) {
+                let {id, email, login} = res.data;
                 dispatch(setAuthUserData(id, email, login));
             }
         })

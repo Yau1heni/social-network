@@ -9,12 +9,9 @@ const ProfileInfo = (props: any) => {
     }
     return (
         <div>
-            <div>
-                <img src="" alt="img"/>
-            </div>
             <img src={props.profile.photos.large} alt="img"/>
             <div className={s.description_block}>
-                <ProfileStatus status={props.status} updateStatus={props.updateStatus}/>
+                <ProfileStatus status={props.status} updateStatus={props.updateUserStatus}/>
             </div>
         </div>
     );

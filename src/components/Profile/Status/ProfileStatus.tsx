@@ -2,12 +2,12 @@ import React, {ChangeEvent} from 'react';
 
 export type StatusPropsType = {
     status: string
-    updateStatus?: (newMess: string) => void
+    updateStatus: (newMess: string) => void
 }
 
 type StateType = {
     editMode: boolean
-    status: string
+    status: string | null
 }
 
 
@@ -35,21 +35,22 @@ export class ProfileStatus extends React.Component<StatusPropsType> {
     };
 
 
-        onChangeStatus = (e: ChangeEvent<HTMLInputElement>) => {
-            this.setState({
-                status: e.currentTarget.value
-            });
-        };
-    /*
-        componentDidUpdate(prevProps: Readonly<StatusPropsType>, prevState: Readonly<StateType>) {
-            if (prevProps.status !== this.props.status) {
-                this.setState(
-                    {status: this.props.status}
-                );
-            }
-        }*/
+    onChangeStatus = (e: ChangeEvent<HTMLInputElement>) => {
+        this.setState({
+            status: e.currentTarget.value
+        });
+    };
+
+    componentDidUpdate(prevProps: Readonly<StatusPropsType>, prevState: Readonly<StateType>) {
+        if (prevProps.status !== this.props.status) {
+            this.setState(
+                {status: this.props.status}
+            );
+        }
+    }
 
     render() {
+        debugger
         return (
             <>
                 {this.state.editMode ? <div>
@@ -60,7 +61,7 @@ export class ProfileStatus extends React.Component<StatusPropsType> {
                                value={this.state.status ? this.state.status : ''}/>
                         <button onClick={this.editModeOff}>Save</button>
                     </div> :
-                    <div onDoubleClick={this.editModeOn}>status: {this.state.status ? this.state.status : ''}</div>
+                    <div onDoubleClick={this.editModeOn}>status: {this.props.status}</div>
                 }
 
             </>);

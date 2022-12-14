@@ -12,7 +12,7 @@ export type InitialStatePostType = {
     posts: Array<PostsType>
     newPostText: string
     profile: null | string
-    status: string
+    status: string | null
 }
 
 export type AddPostActionType = ReturnType<typeof addPostAC>
@@ -34,7 +34,7 @@ const initialState: InitialStatePostType = {
     ],
     newPostText: '',
     profile: null,
-    status: ''
+    status: null
 };
 
 export const profileReducer = (state = initialState, action: ProfileActionType): InitialStatePostType => {
@@ -85,7 +85,7 @@ export const getUserProfile = (userId: string) => {
 export const getUserStatus = (id: number) => {
     return (dispatch: Dispatch) => {
         profileAPI.getStatus(id).then(res => {
-            dispatch(setUserStatus(res));
+            dispatch(setUserStatus(res.data));
         });
     };
 };
@@ -95,7 +95,6 @@ export const updateUserStatus = (status: string) => {
             if (res.data.resultCode === 0) {
                 dispatch(setUserStatus(status));
             }
-
         });
     };
 };
