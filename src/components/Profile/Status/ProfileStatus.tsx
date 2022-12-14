@@ -50,7 +50,6 @@ export class ProfileStatus extends React.Component<StatusPropsType> {
     }
 
     render() {
-        debugger
         return (
             <>
                 {this.state.editMode ? <div>
