@@ -1,10 +1,39 @@
 import React from 'react';
-import {FormDataType, ReduxLoginForm} from './LoginForm';
+import {connect} from 'react-redux';
+import {loginTC} from '../../redux/auth-reducer';
+import {Redirect} from 'react-router-dom';
+import {AppStoreType} from '../../redux/redux-store';
+import {Field, InjectedFormProps, reduxForm} from 'redux-form';
+import {Input} from '../common/FormsControls/TextareaControls';
+import {required} from '../../utils/validators/validators';
 
-export const Login = () => {
-    const onSubmit = (formData: FormDataType) => {
-        console.log(formData);
+type LoginPropsType = {
+    loginTC: (email: string, password: string, rememberMe: boolean) => void
+    isAuth: boolean
+}
+type FormDataType = {
+    email: string
+    password: string
+    rememberMe: boolean
+}
+
+type MapStatePropsType = {
+    isAuth: boolean
+}
+const mapStateToProps = (state: AppStoreType): MapStatePropsType => {
+    return {
+        isAuth: state.auth.isAuth
     };
+};
+
+const Login = (props: LoginPropsType) => {
+    const onSubmit = (formData: FormDataType) => {
+        props.loginTC(formData.email, formData.password, formData.rememberMe);
+    };
+
+    if (props.isAuth) {
+        return <Redirect to={'/profile'}/>;
+    }
 
     return (
         <div>
@@ -14,3 +43,37 @@ export const Login = () => {
     );
 
 };
+
+export default connect(mapStateToProps, {loginTC})(Login);
+
+export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
+    return (
+        <form onSubmit={props.handleSubmit}>
+            <div>
+                <div>
+                    <Field placeholder={'Login'} name={'email'}
+                           type={'text'} component={Input}
+                           validate={[required]}
+                    />
+                </div>
+                <div>
+                    <Field placeholder={'Password'} name={'password'}
+                           component={Input} type={'password'}
+                           validate={[required]}
+                    />
+                </div>
+            </div>
+            <div>
+                <Field name={'rememberMe'} component={'input'} type={'checkbox'}/>
+                remember me
+            </div>
+            <div>
+                <button>Login</button>
+            </div>
+
+        </form>
+    );
+};
+
+
+export const ReduxLoginForm = reduxForm<FormDataType>({form: 'login'})(LoginForm);

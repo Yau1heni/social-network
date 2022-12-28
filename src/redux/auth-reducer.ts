@@ -1,56 +1,61 @@
 import {Dispatch} from 'redux';
 import {authMe} from '../api/api';
+import {ThunkDispatch} from 'redux-thunk';
 
-type initialUsersStateType = {
-    id: number | null
-    email: string | null
-    login: string | null
+type initialLoginStateType = {
+    id: number | null,
+    email: string
+    login: string
     isAuth: boolean
 }
 
 export type setUserDataActionType = ReturnType<typeof setAuthUserData>
 
-const initialState: initialUsersStateType = {
+const initialState: initialLoginStateType = {
     id: null,
-    email: null,
-    login: null,
+    login: '',
+    email: '',
     isAuth: false
 };
 
-export const authReducer = (state = initialState, action: setUserDataActionType): initialUsersStateType => {
+export const authReducer = (state = initialState, action: setUserDataActionType): initialLoginStateType => {
     switch (action.type) {
         case 'SET-USER-DATA':
             return {
                 ...state,
-                ...action.data, isAuth: true
+                ...action.payload
             };
         default:
             return state;
     }
 };
 
-export const setAuthUserData = (id: number, email: string, login: string) => {
+export const setAuthUserData = (id: number | null, login: string, email: string, isAuth: boolean) => {
     return {
         type: 'SET-USER-DATA',
-        data: {
-            id,
-            email,
-            login
-        }
+        payload: {id, login, email, isAuth}
     } as const;
 };
 
 export const getAuthUserData = () => {
-    return (dispatch: Dispatch) => {
+    return (dispatch: Dispatch<setUserDataActionType>) => {
         authMe.me().then(res => {
             if (res.resultCode === 0) {
-                let {id, email, login} = res.data;
-                dispatch(setAuthUserData(id, email, login));
+                let {id, login, email} = res.data;
+                dispatch(setAuthUserData(id, login, email, true));
             }
-        })
+        });
     };
 };
 
-
+export const loginTC = (email: string, password: string, rememberMe: boolean) => {
+    return (dispatch: ThunkDispatch<initialLoginStateType, any, setUserDataActionType>) => {
+        authMe.login(email, password, rememberMe).then(res => {
+            if (res.data.resultCode === 0) {
+                dispatch(getAuthUserData());
+            }
+        });
+    };
+};
 
 

@@ -12,7 +12,6 @@ export type PostFormType = {
 
 const MyPosts = (props: PostsPropsType) => {
     const addPostHandler = (values: PostFormType) => {
-        debugger
         props.addPost(values.newText);
     };
 

@@ -26,10 +26,10 @@ export const usersAPI = {
 };
 export const profileAPI = {
     getProfile(userId: string) {
-        return instance.get(`profile/${userId}`)
+        return instance.get(`profile/${userId}`);
     },
     getStatus: (id: number) => {
-        return instance.get(`profile/status/${id}`)
+        return instance.get(`profile/status/${id}`);
     },
     updateStatus: (status: string) => {
         return instance.put(`profile/status`, {status}).then((res => res.data));
@@ -40,5 +40,11 @@ export const profileAPI = {
 export const authMe = {
     me() {
         return instance.get<GetAuthItemType>('auth/me').then((res => res.data));
-    }
+    },
+    login(email: string, password: string, rememberMe: boolean) {
+        return instance.post('auth/login', {email, password, rememberMe});
+    },
+    logout() {
+        return instance.delete('auth/login');
+    },
 };

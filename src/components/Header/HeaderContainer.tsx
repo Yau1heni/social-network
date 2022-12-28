@@ -21,7 +21,7 @@ type mapStateToPropsType = {
 }
 
 type MapDispatchPropsType = {
-    getAuthUserData: () => any
+    getAuthUserData: () => void
 }
 
 
