@@ -1,7 +1,7 @@
 import React from 'react';
 import Profile from '../Profile';
 import {connect} from 'react-redux';
-import {getUserProfile, getUserStatus, updateUserStatus} from '../../../redux/profile-reducer';
+import {getUserProfile, getUserStatus, ProfileInfoType, updateUserStatus} from '../../../redux/profile-reducer';
 import {AppStoreType} from '../../../redux/redux-store';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {withAuthRedirect} from '../../../hoc/WithAuthRedirect';
@@ -14,8 +14,8 @@ type PathParamsType = {
 }
 
 type MapStatePropsType = {
-    profile: null | string
-    status: null | string
+    profile: ProfileInfoType
+    status: string
     isAuth: boolean
     userID: number | null
 }
@@ -27,9 +27,9 @@ type MapDispatchPropsType = {
 }
 
 type OwnPropsType = MapStatePropsType & MapDispatchPropsType
-type PropsType = RouteComponentProps<PathParamsType> & OwnPropsType
+export type ProfilePropsType = RouteComponentProps<PathParamsType> & OwnPropsType
 
-class ProfileContainer extends React.Component<PropsType> {
+class ProfileContainer extends React.Component<ProfilePropsType> {
 
     componentDidMount() {
         let userAuthorizedID = +this.props.match.params.userID;

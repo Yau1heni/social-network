@@ -8,10 +8,32 @@ export type PostsType = {
     like: number
 }
 
+export type ProfileInfoType = {
+    aboutMe: string
+    contacts: {
+        facebook: string
+        website: string
+        vk: string
+        twitter: string
+        instagram: string
+        youtube: string
+        github: string
+        mainLink: string
+    },
+    lookingForAJob: boolean
+    lookingForAJobDescription: string
+    fullName: string
+    userId: number
+    photos: {
+        small: string
+        large: string
+    }
+}
+
 export type InitialStatePostType = {
     posts: Array<PostsType>
-    profile: null | string
-    status: string | null
+    profile: ProfileInfoType
+    status: string
 }
 
 type AddPostActionType = ReturnType<typeof addPostAC>
@@ -29,8 +51,28 @@ const initialState: InitialStatePostType = {
         {id: v1(), message: 'Hello', like: 32},
         {id: v1(), message: 'Good night', like: 13}
     ],
-    profile: null,
-    status: null
+    profile: {
+        aboutMe: '',
+        contacts: {
+            facebook: '',
+            website: '',
+            vk: '',
+            twitter: '',
+            instagram: '',
+            youtube: '',
+            github: '',
+            mainLink: ''
+        },
+        lookingForAJob: false,
+        lookingForAJobDescription: '',
+        fullName: '',
+        userId: 0,
+        photos: {
+            small: '',
+            large: ''
+        }
+    },
+    status: ''
 };
 
 export const profileReducer = (state = initialState, action: ProfileActionType): InitialStatePostType => {
@@ -58,7 +100,7 @@ export const profileReducer = (state = initialState, action: ProfileActionType):
 export const addPostAC = (newText: string) => {
     return {type: 'ADD-POST', newText} as const;
 };
-export const setUserProfile = (profile: any) => {
+export const setUserProfile = (profile: ProfileInfoType) => {
     return {type: 'SET-USER-PROFILE', profile} as const;
 };
 export const setUserStatus = (status: string) => {
