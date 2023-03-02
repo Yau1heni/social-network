@@ -6,6 +6,8 @@ import {AppStoreType} from '../../../redux/redux-store';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {withAuthRedirect} from '../../../hoc/WithAuthRedirect';
 import {compose} from 'redux';
+import {getProfileData, getProfileStatus} from '../../../redux/selectors/profile-selectors';
+import {getIsAuth, getUserID} from '../../../redux/selectors/auth-selectors';
 
 type PathParamsType = {
     userID: string
@@ -49,10 +51,10 @@ class ProfileContainer extends React.Component<PropsType> {
 
 let mapStateToProps = (state: AppStoreType): MapStatePropsType => {
     return {
-        profile: state.profileReducer.profile,
-        status: state.profileReducer.status,
-        isAuth: state.auth.isAuth,
-        userID: state.auth.id
+        profile: getProfileData(state),
+        status: getProfileStatus(state),
+        isAuth: getIsAuth(state),
+        userID: getUserID(state)
     };
 };
 

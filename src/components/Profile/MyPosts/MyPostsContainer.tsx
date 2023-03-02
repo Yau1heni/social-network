@@ -4,6 +4,8 @@ import MyPosts from './MyPosts';
 import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 import {AppStoreType} from '../../../redux/redux-store';
+import {getPosts} from '../../../redux/selectors/profile-selectors';
+import {getIsAuth} from '../../../redux/selectors/auth-selectors';
 
 type MapStatePropsType = {
     posts: Array<PostsType>
@@ -18,8 +20,8 @@ export type PostsPropsType = MapStatePropsType & MapDispatchPropsType
 
 let mapStateToProps = (state: AppStoreType): MapStatePropsType => {
     return {
-        posts: state.profileReducer.posts,
-        isAuth: state.auth.isAuth
+        posts: getPosts(state),
+        isAuth: getIsAuth(state)
     }
 }
 

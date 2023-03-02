@@ -6,6 +6,13 @@ import Users from './Users';
 import Preloader from '../common/Preloader/Preloader';
 import {compose} from 'redux';
 import {withAuthRedirect} from '../../hoc/WithAuthRedirect';
+import {
+    getCurrentPage,
+    getPageSize,
+    getTotalUsersCount,
+    getUsers,
+    getUsersIsFetching
+} from '../../redux/selectors/users-selectors';
 
 export type GetItemType = {
     name: string
@@ -72,11 +79,11 @@ class UsersContainer extends React.Component<UsersContainerPropsType, GetItemTyp
 
 let mapStateToProps = (state: AppStoreType) => {
     return {
-        users: state.userReducer.users,
-        pageSize: state.userReducer.pageSize,
-        totalUsersCount: state.userReducer.totalUsersCount,
-        currentPage: state.userReducer.currentPage,
-        isFetching: state.userReducer.isFetching
+        users: getUsers(state),
+        pageSize: getPageSize(state),
+        totalUsersCount: getTotalUsersCount(state),
+        currentPage: getCurrentPage(state),
+        isFetching: getUsersIsFetching(state)
     };
 };
 

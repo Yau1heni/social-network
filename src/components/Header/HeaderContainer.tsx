@@ -3,6 +3,7 @@ import Header from './Header';
 import {connect} from 'react-redux';
 import {getAuthUserData} from '../../redux/auth-reducer';
 import {AppStoreType} from '../../redux/redux-store';
+import {getIsAuth, getUserLogin} from '../../redux/selectors/auth-selectors';
 
 export type GetAuthItemType = {
     data: {
@@ -34,8 +35,8 @@ class HeaderContainer extends React.Component<HeaderContainerPropsType, GetAuthI
 }
 
 const mapStateToProps = (state: AppStoreType): mapStateToPropsType => ({
-    isAuth: state.auth.isAuth,
-    login: state.auth.login
+    isAuth: getIsAuth(state),
+    login: getUserLogin(state)
 });
 
 export default connect(mapStateToProps, {getAuthUserData})(HeaderContainer);

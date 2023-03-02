@@ -7,6 +7,7 @@ import {Field, InjectedFormProps, reduxForm} from 'redux-form';
 import {Input} from '../common/FormsControls/TextareaControls';
 import {required} from '../../utils/validators/validators';
 import s from './Login.module.css';
+import {getIsAuth} from '../../redux/selectors/auth-selectors';
 
 type LoginPropsType = {
     loginTC: (email: string, password: string, rememberMe: boolean) => void
@@ -23,7 +24,7 @@ type MapStatePropsType = {
 }
 const mapStateToProps = (state: AppStoreType): MapStatePropsType => {
     return {
-        isAuth: state.auth.isAuth
+        isAuth: getIsAuth(state)
     };
 };
 
