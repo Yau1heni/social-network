@@ -1,6 +1,7 @@
 import {Dispatch} from 'redux';
 import {authMe} from '../api/api';
 import {ThunkDispatch} from 'redux-thunk';
+import {FormAction, stopSubmit} from 'redux-form';
 
 type initialLoginStateType = {
     id: number | null,
@@ -49,10 +50,13 @@ export const getAuthUserData = () => {
 };
 
 export const loginTC = (email: string, password: string, rememberMe: boolean) => {
-    return (dispatch: ThunkDispatch<initialLoginStateType, any, setUserDataActionType>) => {
+    return (dispatch: ThunkDispatch<initialLoginStateType, any, setUserDataActionType | FormAction>) => {
         authMe.login(email, password, rememberMe).then(res => {
             if (res.data.resultCode === 0) {
                 dispatch(getAuthUserData());
+            } else {
+                console.log(res.data);
+                if (res.data.messages.length > 0) dispatch(stopSubmit('login', {_error: res.data.messages[0]}));
             }
         });
     };

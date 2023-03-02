@@ -6,6 +6,7 @@ import {AppStoreType} from '../../redux/redux-store';
 import {Field, InjectedFormProps, reduxForm} from 'redux-form';
 import {Input} from '../common/FormsControls/TextareaControls';
 import {required} from '../../utils/validators/validators';
+import s from './Login.module.css';
 
 type LoginPropsType = {
     loginTC: (email: string, password: string, rememberMe: boolean) => void
@@ -46,9 +47,9 @@ const Login = (props: LoginPropsType) => {
 
 export default connect(mapStateToProps, {loginTC})(Login);
 
-export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
+export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = ({error, handleSubmit}) => {
     return (
-        <form onSubmit={props.handleSubmit}>
+        <form onSubmit={handleSubmit}>
             <div>
                 <div>
                     <Field placeholder={'Login'} name={'email'}
@@ -70,7 +71,7 @@ export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
             <div>
                 <button>Login</button>
             </div>
-
+            {error && <div className={s.error}> {error} </div>}
         </form>
     );
 };
