@@ -18,7 +18,7 @@ const initialState: initialUsersStateType = {
     isFetching: true
 };
 
-export const userReducer = (state = initialState, action: ActionType): initialUsersStateType => {
+export const userReducer = (state = initialState, action: UsersActionType): initialUsersStateType => {
     switch (action.type) {
         case 'FOLLOW':
             return {
@@ -43,19 +43,19 @@ export const userReducer = (state = initialState, action: ActionType): initialUs
     }
 };
 
-export type ActionType = FollowActionType
+export type UsersActionType = FollowActionType
     | UnfollowActionType
     | SetUsersActionType
     | SetCurrentPageActionType
     | SetTotalUsersCountActionType
     | ToggleIsFetchingActionType
 
-export type FollowActionType = ReturnType<typeof follow>
-export type UnfollowActionType = ReturnType<typeof unfollow>
-export type SetUsersActionType = ReturnType<typeof setUsers>
-export type SetCurrentPageActionType = ReturnType<typeof setCurrentPage>
-export type SetTotalUsersCountActionType = ReturnType<typeof setTotalUsersCount>
-export type ToggleIsFetchingActionType = ReturnType<typeof toggleIsFetching>
+type FollowActionType = ReturnType<typeof follow>
+type UnfollowActionType = ReturnType<typeof unfollow>
+type SetUsersActionType = ReturnType<typeof setUsers>
+type SetCurrentPageActionType = ReturnType<typeof setCurrentPage>
+type SetTotalUsersCountActionType = ReturnType<typeof setTotalUsersCount>
+type ToggleIsFetchingActionType = ReturnType<typeof toggleIsFetching>
 
 export const follow = (idUser: string) => {
     return {
@@ -106,7 +106,7 @@ export const toggleIsFetching = (isFetching: boolean) => {
     } as const;
 };
 
-export const getUsersTC = (pageSize:number, currentPage: number) => {
+export const getUsersTC = (pageSize: number, currentPage: number) => {
     return (dispatch: Dispatch) => {
         dispatch(toggleIsFetching(true));
         usersAPI.getUsers(pageSize, currentPage)

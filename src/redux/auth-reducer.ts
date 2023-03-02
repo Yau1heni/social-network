@@ -10,7 +10,7 @@ type initialLoginStateType = {
     isAuth: boolean
 }
 
-export type setUserDataActionType = ReturnType<typeof setAuthUserData>
+export type SetUserDataActionType = ReturnType<typeof setAuthUserData>
 
 const initialState: initialLoginStateType = {
     id: null,
@@ -19,7 +19,7 @@ const initialState: initialLoginStateType = {
     isAuth: false
 };
 
-export const authReducer = (state = initialState, action: setUserDataActionType): initialLoginStateType => {
+export const authReducer = (state = initialState, action: SetUserDataActionType): initialLoginStateType => {
     switch (action.type) {
         case 'SET-USER-DATA':
             return {
@@ -31,7 +31,7 @@ export const authReducer = (state = initialState, action: setUserDataActionType)
     }
 };
 
-export const setAuthUserData = (id: number | null, login: string, email: string, isAuth: boolean) => {
+export const setAuthUserData = (id: number, login: string, email: string, isAuth: boolean) => {
     return {
         type: 'SET-USER-DATA',
         payload: {id, login, email, isAuth}
@@ -39,7 +39,7 @@ export const setAuthUserData = (id: number | null, login: string, email: string,
 };
 
 export const getAuthUserData = () => {
-    return (dispatch: Dispatch<setUserDataActionType>) => {
+    return (dispatch: Dispatch<SetUserDataActionType>) => {
         authMe.me().then(res => {
             if (res.resultCode === 0) {
                 let {id, login, email} = res.data;
@@ -50,12 +50,11 @@ export const getAuthUserData = () => {
 };
 
 export const loginTC = (email: string, password: string, rememberMe: boolean) => {
-    return (dispatch: ThunkDispatch<initialLoginStateType, any, setUserDataActionType | FormAction>) => {
+    return (dispatch: ThunkDispatch<initialLoginStateType, any, SetUserDataActionType | FormAction>) => {
         authMe.login(email, password, rememberMe).then(res => {
             if (res.data.resultCode === 0) {
                 dispatch(getAuthUserData());
             } else {
-                console.log(res.data);
                 if (res.data.messages.length > 0) dispatch(stopSubmit('login', {_error: res.data.messages[0]}));
             }
         });

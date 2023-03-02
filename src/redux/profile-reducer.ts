@@ -14,11 +14,11 @@ export type InitialStatePostType = {
     status: string | null
 }
 
-export type AddPostActionType = ReturnType<typeof addPostAC>
-export type setUserProfileType = ReturnType<typeof setUserProfile>
-export type setUserStatusType = ReturnType<typeof setUserStatus>
+type AddPostActionType = ReturnType<typeof addPostAC>
+type setUserProfileType = ReturnType<typeof setUserProfile>
+type setUserStatusType = ReturnType<typeof setUserStatus>
 
-type ProfileActionType = AddPostActionType
+export type ProfileActionType = AddPostActionType
     | setUserProfileType
     | setUserStatusType
 
@@ -65,16 +65,16 @@ export const setUserStatus = (status: string) => {
     return {type: 'SET-USER-STATUS', status} as const;
 };
 
-export const getUserProfile = (userId: string) => {
+export const getUserProfile = (userId: number) => {
     return (dispatch: Dispatch) => {
         profileAPI.getProfile(userId).then(res => {
             dispatch(setUserProfile(res.data));
         });
     };
 };
-export const getUserStatus = (id: number) => {
+export const getUserStatus = (userId: number) => {
     return (dispatch: Dispatch) => {
-        profileAPI.getStatus(id).then(res => {
+        profileAPI.getStatus(userId).then(res => {
             dispatch(setUserStatus(res.data));
         });
     };
