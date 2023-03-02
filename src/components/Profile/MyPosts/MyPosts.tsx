@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, memo} from 'react';
 import s from './MyPosts.module.css';
 import Post from './Post/Post';
 import {PostsPropsType} from './MyPostsContainer';
@@ -10,7 +10,7 @@ export type PostFormType = {
     newText: string
 }
 
-const MyPosts = (props: PostsPropsType) => {
+const MyPosts = memo((props: PostsPropsType) => {
     const addPostHandler = (values: PostFormType) => {
         props.addPost(values.newText);
     };
@@ -30,21 +30,21 @@ const MyPosts = (props: PostsPropsType) => {
             </div>
         </div>
     );
-};
+});
 
-const maxLength = maxLengthCreator(50)
+const maxLength = maxLengthCreator(50);
 const AddPostForm: FC<InjectedFormProps<PostFormType>> = (props) => {
     return (
-            <form onSubmit={props.handleSubmit}>
-                <Field component={TextareaControls}
-                       name={'newText'}
-                       placeholder={'enter your post'}
-                       validate={[required, maxLength]}
-                />
-                <div>
-                    <button>Add post</button>
-                </div>
-            </form>
+        <form onSubmit={props.handleSubmit}>
+            <Field component={TextareaControls}
+                   name={'newText'}
+                   placeholder={'enter your post'}
+                   validate={[required, maxLength]}
+            />
+            <div>
+                <button>Add post</button>
+            </div>
+        </form>
     );
 };
 
