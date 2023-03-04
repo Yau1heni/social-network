@@ -3,6 +3,7 @@ import s from './Users.module.css';
 import {GetItemType} from './UsersContainer';
 import userPhoto from '../../assets/img/userPhoto.png';
 import {NavLink} from 'react-router-dom';
+import {Paginator} from '../common/Paginator/Paginator';
 
 type UsersPropsType = {
     totalUsersCount: number
@@ -32,14 +33,11 @@ const Users: FC<UsersPropsType> = ({
     return (
         <div>
             <div>
-                {pages.map(p => {
-                    return <span key={p} className={`${s.pagesElem} 
-                    ${(currentPage === p) ? s.selectedPages : ''}`}
-                                 onClick={() => {
-                                     onPageChanged(p);
-                                 }}>{p}</span>;
-                })}
-
+                <Paginator totalItemsCount={totalUsersCount}
+                           pageSize={pageSize}
+                           currentPage={currentPage}
+                           onPageChanged={onPageChanged}
+                />
             </div>
             {users.map((u: GetItemType) =>
                 <div key={u.id} className={s.users}>
