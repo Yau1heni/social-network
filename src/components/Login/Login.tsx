@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FC} from 'react';
 import {connect} from 'react-redux';
 import {loginTC} from '../../redux/auth-reducer';
 import {Redirect} from 'react-router-dom';
@@ -28,12 +28,12 @@ const mapStateToProps = (state: AppStoreType): MapStatePropsType => {
     };
 };
 
-const Login = (props: LoginPropsType) => {
+const Login: FC<LoginPropsType> = ({isAuth, loginTC}) => {
     const onSubmit = (formData: FormDataType) => {
-        props.loginTC(formData.email, formData.password, formData.rememberMe);
+        loginTC(formData.email, formData.password, formData.rememberMe);
     };
 
-    if (props.isAuth) {
+    if (isAuth) {
         return <Redirect to={'/profile'}/>;
     }
 

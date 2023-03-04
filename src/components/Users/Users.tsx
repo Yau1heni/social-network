@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FC} from 'react';
 import s from './Users.module.css';
 import {GetItemType} from './UsersContainer';
 import userPhoto from '../../assets/img/userPhoto.png';
@@ -13,9 +13,17 @@ type UsersPropsType = {
     follow: (idUser: string) => void
     unfollow: (idUser: string) => void
 }
-const Users = (props: UsersPropsType) => {
+const Users: FC<UsersPropsType> = ({
+                                       users,
+                                       totalUsersCount,
+                                       pageSize,
+                                       currentPage,
+                                       onPageChanged,
+                                       unfollow,
+                                       follow
+                                   }) => {
 
-    let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
+    let pagesCount = Math.ceil(totalUsersCount / pageSize);
     let pages = [];
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i);
@@ -26,14 +34,14 @@ const Users = (props: UsersPropsType) => {
             <div>
                 {pages.map(p => {
                     return <span key={p} className={`${s.pagesElem} 
-                    ${(props.currentPage === p) ? s.selectedPages : ''}`}
+                    ${(currentPage === p) ? s.selectedPages : ''}`}
                                  onClick={() => {
-                                     props.onPageChanged(p);
+                                     onPageChanged(p);
                                  }}>{p}</span>;
                 })}
 
             </div>
-            {props.users.map((u: GetItemType) =>
+            {users.map((u: GetItemType) =>
                 <div key={u.id} className={s.users}>
                     <span>
                         <div>
@@ -48,11 +56,11 @@ const Users = (props: UsersPropsType) => {
 
                     <div>
                         {u.followed && <button onClick={() => {
-                            props.unfollow(u.id);
+                            unfollow(u.id);
                         }}>Unfollow</button>}
 
                         {!u.followed && <button onClick={() => {
-                            props.follow(u.id);
+                            follow(u.id);
                         }}>Follow</button>}
 
                         <div>{u.name}</div>

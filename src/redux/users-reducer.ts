@@ -20,23 +20,23 @@ const initialState: initialUsersStateType = {
 
 export const userReducer = (state = initialState, action: UsersActionType): initialUsersStateType => {
     switch (action.type) {
-        case 'FOLLOW':
+        case 'user/FOLLOW':
             return {
                 ...state,
                 users: state.users.map(u => u.id === action.payload.idUser ? {...u, followed: true} : u)
             };
-        case 'UNFOLLOW':
+        case 'user/UNFOLLOW':
             return {
                 ...state,
                 users: state.users.map(u => u.id === action.payload.idUser ? {...u, followed: false} : u)
             };
-        case 'SET-USERS':
+        case 'user/SET-USERS':
             return {...state, users: action.payload.users};
-        case 'SET-CURRENT-PAGE':
+        case 'user/SET-CURRENT-PAGE':
             return {...state, currentPage: action.payload.currentPage};
-        case 'SET-TOTAL-USERS-COUNT':
+        case 'user/SET-TOTAL-USERS-COUNT':
             return {...state, totalUsersCount: action.payload.totalCount};
-        case 'TOGGLE-IS-FETCHING':
+        case 'user/TOGGLE-IS-FETCHING':
             return {...state, isFetching: action.payload.isFetching};
         default:
             return state;
@@ -59,7 +59,7 @@ type ToggleIsFetchingActionType = ReturnType<typeof toggleIsFetching>
 
 export const follow = (idUser: string) => {
     return {
-        type: 'FOLLOW',
+        type: 'user/FOLLOW',
         payload: {
             idUser
         }
@@ -67,7 +67,7 @@ export const follow = (idUser: string) => {
 };
 export const unfollow = (idUser: string) => {
     return {
-        type: 'UNFOLLOW',
+        type: 'user/UNFOLLOW',
         payload: {
             idUser
         }
@@ -75,7 +75,7 @@ export const unfollow = (idUser: string) => {
 };
 export const setUsers = (users: GetItemType[]) => {
     return {
-        type: 'SET-USERS',
+        type: 'user/SET-USERS',
         payload: {
             users
         }
@@ -83,7 +83,7 @@ export const setUsers = (users: GetItemType[]) => {
 };
 export const setCurrentPage = (currentPage: number) => {
     return {
-        type: 'SET-CURRENT-PAGE',
+        type: 'user/SET-CURRENT-PAGE',
         payload: {
             currentPage
         }
@@ -91,7 +91,7 @@ export const setCurrentPage = (currentPage: number) => {
 };
 export const setTotalUsersCount = (totalCount: number) => {
     return {
-        type: 'SET-TOTAL-USERS-COUNT',
+        type: 'user/SET-TOTAL-USERS-COUNT',
         payload: {
             totalCount
         }
@@ -99,7 +99,7 @@ export const setTotalUsersCount = (totalCount: number) => {
 };
 export const toggleIsFetching = (isFetching: boolean) => {
     return {
-        type: 'TOGGLE-IS-FETCHING',
+        type: 'user/TOGGLE-IS-FETCHING',
         payload: {
             isFetching
         }

@@ -10,7 +10,7 @@ type AppDataType = typeof initState
 
 export const appReducer = (state: AppDataType = initState, action: AppActionType): AppDataType => {
     switch (action.type) {
-        case 'SET_INITIALIZED':
+        case 'app/SET-INITIALIZED':
             return {
                 ...state,
                 initialized: true
@@ -21,7 +21,7 @@ export const appReducer = (state: AppDataType = initState, action: AppActionType
 }
 
 export const setInitializedSuccessAC = () => {
-    return {type: 'SET_INITIALIZED'} as const
+    return {type: 'app/SET-INITIALIZED'} as const
 }
 export const initializeApp = () => {
     return (dispatch: AppDispatchType) => {

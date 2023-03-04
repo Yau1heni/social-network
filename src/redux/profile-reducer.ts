@@ -77,7 +77,7 @@ const initialState: ProfilePageType = {
 
 export const profileReducer = (state = initialState, action: ProfileActionType): ProfilePageType => {
     switch (action.type) {
-        case 'ADD-POST': {
+        case 'profile/ADD-POST': {
             let newPost = {
                 id: v1(),
                 message: action.newText,
@@ -85,10 +85,10 @@ export const profileReducer = (state = initialState, action: ProfileActionType):
             };
             return {...state, posts: [newPost, ...state.posts]};
         }
-        case 'SET-USER-PROFILE': {
+        case 'profile/SET-USER-PROFILE': {
             return {...state, profile: action.profile};
         }
-        case 'SET-USER-STATUS': {
+        case 'profile/SET-USER-STATUS': {
             return {...state, status: action.status};
         }
         default:
@@ -98,13 +98,13 @@ export const profileReducer = (state = initialState, action: ProfileActionType):
 
 
 export const addPostAC = (newText: string) => {
-    return {type: 'ADD-POST', newText} as const;
+    return {type: 'profile/ADD-POST', newText} as const;
 };
 export const setUserProfileAC = (profile: ProfileInfoType) => {
-    return {type: 'SET-USER-PROFILE', profile} as const;
+    return {type: 'profile/SET-USER-PROFILE', profile} as const;
 };
 export const setUserStatusAC = (status: string) => {
-    return {type: 'SET-USER-STATUS', status} as const;
+    return {type: 'profile/SET-USER-STATUS', status} as const;
 };
 
 export const getUserProfile = (userId: number) => {

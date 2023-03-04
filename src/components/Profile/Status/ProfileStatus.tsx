@@ -1,35 +1,35 @@
-import {ChangeEvent, useEffect, useState} from 'react';
+import {ChangeEvent, FC, useEffect, useState} from 'react';
 
 type PropsType = {
     status: string,
     updateUserStatus: (status: string) => void
 }
 
-export const ProfileStatus = (props: PropsType) => {
+export const ProfileStatus: FC<PropsType> = ({status, updateUserStatus}) => {
 
     let [editMode, setEditMode] = useState(false);
-    let [status, setStatus] = useState(props.status);
+    let [newStatus, setNewStatus] = useState(status);
 
     useEffect(() => {
-        setStatus(props.status);
-    }, [props.status]);
+        setNewStatus(status);
+    }, [status]);
 
     const activateEditMode = () => {
         setEditMode(true);
     };
     const deactivateEditMode = () => {
         setEditMode(false);
-        props.updateUserStatus(status);
+        updateUserStatus(newStatus);
     };
     const onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setStatus(e.currentTarget.value);
+        setNewStatus(e.currentTarget.value);
     };
 
     return (
         <div>
             {!editMode &&
               <div>
-                <span onDoubleClick={activateEditMode}>{props.status || '______'}</span>
+                <span onDoubleClick={activateEditMode}>{status || '______'}</span>
               </div>
             }
             {editMode &&
@@ -37,7 +37,7 @@ export const ProfileStatus = (props: PropsType) => {
                 <input autoFocus={true}
                        onChange={onStatusChange}
                        onBlur={deactivateEditMode}
-                       value={status}/>
+                       value={newStatus}/>
               </div>
             }
         </div>
