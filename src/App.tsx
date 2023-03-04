@@ -1,10 +1,10 @@
 import React from 'react';
 import './App.css';
-import {Route, withRouter} from 'react-router-dom';
+import {BrowserRouter, Route, withRouter} from 'react-router-dom';
 import DialogsContainer from './components/Dialogs/DialogsContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
 import Login from './components/Login/Login';
-import {connect} from 'react-redux';
+import {connect, Provider} from 'react-redux';
 import {compose} from 'redux';
 import Navbar from './components/Navbar/Navbar';
 import ProfileContainer from './components/Profile/ProfileInfo/ProfileContainer';
@@ -14,6 +14,7 @@ import News from './components/News/News';
 import Music from './components/Music/Music';
 import Settings from './components/Settings/Settings';
 import {initializeApp} from './redux/app-reducer';
+import store from './redux/redux-store';
 
 type mapStateToPropsType = {
     initialized: boolean
@@ -60,9 +61,19 @@ const mapStateToProps = (state: any): mapStateToPropsType => {
         initialized: state.app.initialized
     };
 };
-export default compose<React.ComponentType>(
+let AppContainer = compose<React.ComponentType>(
     connect(mapStateToProps, {initializeApp}),
     withRouter
 )(App);
+
+export const MainApp = () => {
+    return (
+        <BrowserRouter>
+            <Provider store={store}>
+                <AppContainer/>
+            </Provider>
+        </BrowserRouter>
+    );
+};
 
 
