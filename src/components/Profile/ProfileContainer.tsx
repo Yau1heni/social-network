@@ -1,13 +1,13 @@
 import React from 'react';
-import Profile from '../Profile';
+import Profile from './Profile';
 import {connect} from 'react-redux';
-import {getUserProfile, getUserStatus, ProfileInfoType, updateUserStatus} from '../../../redux/profile-reducer';
-import {AppStoreType} from '../../../redux/redux-store';
+import {getUserProfile, getUserStatus, ProfileInfoType, updateUserStatus} from '../../redux/profile-reducer';
+import {AppStoreType} from '../../redux/redux-store';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
-import {withAuthRedirect} from '../../../hoc/WithAuthRedirect';
+import {withAuthRedirect} from '../../hoc/WithAuthRedirect';
 import {compose} from 'redux';
-import {getProfileData, getProfileStatus} from '../../../redux/selectors/profile-selectors';
-import {getIsAuth, getUserID} from '../../../redux/selectors/auth-selectors';
+import {getProfileData, getProfileStatus} from '../../redux/selectors/profile-selectors';
+import {getIsAuth, getUserID} from '../../redux/selectors/auth-selectors';
 
 type PathParamsType = {
     userID: string
