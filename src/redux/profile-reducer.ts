@@ -30,21 +30,21 @@ export type ProfileInfoType = {
     }
 }
 
-export type InitialStatePostType = {
+export type ProfilePageType = {
     posts: Array<PostsType>
     profile: ProfileInfoType
     status: string
 }
 
 type AddPostActionType = ReturnType<typeof addPostAC>
-type setUserProfileType = ReturnType<typeof setUserProfile>
-type setUserStatusType = ReturnType<typeof setUserStatus>
+type setUserProfileType = ReturnType<typeof setUserProfileAC>
+type setUserStatusType = ReturnType<typeof setUserStatusAC>
 
 export type ProfileActionType = AddPostActionType
     | setUserProfileType
     | setUserStatusType
 
-const initialState: InitialStatePostType = {
+const initialState: ProfilePageType = {
     posts: [
         {id: v1(), message: 'Hi, how are you', like: 10},
         {id: v1(), message: 'It is my second messages', like: 1},
@@ -75,7 +75,7 @@ const initialState: InitialStatePostType = {
     status: ''
 };
 
-export const profileReducer = (state = initialState, action: ProfileActionType): InitialStatePostType => {
+export const profileReducer = (state = initialState, action: ProfileActionType): ProfilePageType => {
     switch (action.type) {
         case 'ADD-POST': {
             let newPost = {
@@ -100,24 +100,24 @@ export const profileReducer = (state = initialState, action: ProfileActionType):
 export const addPostAC = (newText: string) => {
     return {type: 'ADD-POST', newText} as const;
 };
-export const setUserProfile = (profile: ProfileInfoType) => {
+export const setUserProfileAC = (profile: ProfileInfoType) => {
     return {type: 'SET-USER-PROFILE', profile} as const;
 };
-export const setUserStatus = (status: string) => {
+export const setUserStatusAC = (status: string) => {
     return {type: 'SET-USER-STATUS', status} as const;
 };
 
 export const getUserProfile = (userId: number) => {
     return (dispatch: Dispatch) => {
         profileAPI.getProfile(userId).then(res => {
-            dispatch(setUserProfile(res.data));
+            dispatch(setUserProfileAC(res.data));
         });
     };
 };
 export const getUserStatus = (userId: number) => {
     return (dispatch: Dispatch) => {
         profileAPI.getStatus(userId).then(res => {
-            dispatch(setUserStatus(res.data));
+            dispatch(setUserStatusAC(res.data));
         });
     };
 };
@@ -125,7 +125,7 @@ export const updateUserStatus = (status: string) => {
     return (dispatch: Dispatch) => {
         profileAPI.updateStatus(status).then(res => {
             if (res.data.resultCode === 0) {
-                dispatch(setUserStatus(status));
+                dispatch(setUserStatusAC(status));
             }
         });
     };

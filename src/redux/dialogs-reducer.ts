@@ -1,12 +1,14 @@
 import {v1} from 'uuid';
 
 type DialogsType = {
-    id: string,
+    id: string
     name: string
+    avatar: string
 }
 type MessagesType = {
     id: string,
-    message: string,
+    message: string
+    avatar: string
 }
 export type InitialStateDialogType = {
     dialogs: Array<DialogsType>
@@ -17,19 +19,19 @@ export type AddNewMessageActionType = ReturnType<typeof addNewMessageAC>
 
 const initialState = {
     dialogs: [
-        {id: v1(), name: 'Zheka'},
-        {id: v1(), name: 'Kalyan'},
-        {id: v1(), name: 'Toha'},
-        {id: v1(), name: 'Igarusha'},
-        {id: v1(), name: 'Max'}
+        {id: v1(), name: 'Zheka', avatar: ''},
+        {id: v1(), name: 'Kalyan', avatar: ''},
+        {id: v1(), name: 'Toha', avatar: ''},
+        {id: v1(), name: 'Igarusha', avatar: ''},
+        {id: v1(), name: 'Max', avatar: ''}
     ],
     messages: [
-        {id: v1(), message: 'Hi'},
-        {id: v1(), message: 'How are you?'},
-        {id: v1(), message: 'Hi'},
-        {id: v1(), message: 'Hi'},
-        {id: v1(), message: 'Hi'}
-    ],
+        {id: v1(), message: 'Hi', avatar: ''},
+        {id: v1(), message: 'How are you?', avatar: ''},
+        {id: v1(), message: 'Hi', avatar: ''},
+        {id: v1(), message: 'Hi', avatar: ''},
+        {id: v1(), message: 'Hi', avatar: ''}
+    ]
 };
 
 export const dialogsReducer = (state: InitialStateDialogType = initialState, action: AddNewMessageActionType): InitialStateDialogType => {
@@ -37,7 +39,8 @@ export const dialogsReducer = (state: InitialStateDialogType = initialState, act
         case 'ADD-NEW-MESSAGE': {
             let newMessage = {
                 id: v1(),
-                message: action.message
+                message: action.message,
+                avatar: ''
             };
             return {...state, messages: [...state.messages, newMessage]};
         }
